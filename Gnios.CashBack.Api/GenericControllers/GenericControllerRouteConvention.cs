@@ -12,7 +12,7 @@ namespace Gnios.CashBack.Api.GenericControllers
             if (controller.ControllerType.IsGenericType)
             {
                 var genericType = controller.ControllerType.GenericTypeArguments[0];
-                var customNameAttribute = genericType.GetCustomAttribute<GeneratedControllerAttribute>();
+                var customNameAttribute = genericType.GetCustomAttribute<FeatureAttribute>();
 
                 if (customNameAttribute?.Route != null)
                 {

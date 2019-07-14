@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.ModelTest
 {
-    [GeneratedController("api/Person")]
+    [FeatureAttribute("api/Person")]
     public class Person : Entidade
     {
         public int Id { get; set; }

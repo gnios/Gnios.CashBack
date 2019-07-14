@@ -11,7 +11,7 @@ namespace Gnios.CashBack.Api.GenericControllers
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
             var currentAssembly = typeof(GenericTypeControllerFeatureProvider).Assembly;
-            var candidates = currentAssembly.GetExportedTypes().Where(x => x.GetCustomAttributes<GeneratedControllerAttribute>().Any());
+            var candidates = currentAssembly.GetExportedTypes().Where(x => x.GetCustomAttributes<FeatureAttribute>().Any());
 
             foreach (var candidate in candidates)
             {

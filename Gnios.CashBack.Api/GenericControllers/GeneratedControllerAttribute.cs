@@ -3,9 +3,9 @@
 namespace Gnios.CashBack.Api.GenericControllers
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class GeneratedControllerAttribute : Attribute
+    public class FeatureAttribute : Attribute
     {
-        public GeneratedControllerAttribute(string route)
+        public FeatureAttribute(string route)
         {
             Route = route;
         }

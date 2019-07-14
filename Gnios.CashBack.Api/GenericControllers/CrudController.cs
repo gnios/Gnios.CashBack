@@ -36,6 +36,7 @@ namespace Gnios.CashBack.Api.GenericControllers
         [HttpPost]
         public virtual T Post([FromBody]T recurso)
         {
+            throw new System.Exception("teste");
             return recurso;
         }
 
