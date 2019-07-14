@@ -10,7 +10,10 @@ namespace Gnios.CashBack.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
+        /// <summary>
+        /// Teste Get
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
