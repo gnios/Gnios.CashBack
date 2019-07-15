@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.ModelTest;
+using Gnios.CashBack.Api.Spotify;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,10 @@ namespace Gnios.CashBack.Api
             .AddFluentValidation()
             .AddFeatureController();
 
+            services.AddMemoryCache();
+            services.AddSingleton<MemoryCacheService, MemoryCacheService>();
+            services.AddSingleton<ClientRest, ClientRest>();
+            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSwaggerDocCashbackAPI();
         }

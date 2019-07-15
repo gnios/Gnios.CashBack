@@ -5,7 +5,7 @@ using System.Linq;
 namespace Gnios.CashBack.Api.GenericControllers
 {
     [Route("api/[controller]")]
-    public class BaseControllerBase : Controller
+    public abstract class BaseControllerBase : Controller
     {
         protected IHttpContextAccessor contexto;
         

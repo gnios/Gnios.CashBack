@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gnios.CashBack.Api.Spotify;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gnios.CashBack.Api.Controllers
@@ -10,6 +11,11 @@ namespace Gnios.CashBack.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public ClientRest Client { get; set; }
+        public ValuesController(ClientRest clientRest)
+        {
+            Client = clientRest;
+        }
         /// <summary>
         /// Teste Get
         /// </summary>
@@ -17,6 +23,7 @@ namespace Gnios.CashBack.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            Client.GetAlbums();
             return new string[] { "value1", "value2" };
         }
 
