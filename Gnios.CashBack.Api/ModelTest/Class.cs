@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.GenericControllers;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.ModelTest
 {
-    [FeatureAttribute("api/Person")]
-    public class Person : Entidade
+    public class Person : Entity<Guid>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public int Age { get; set; }

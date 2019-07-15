@@ -1,13 +1,17 @@
 ﻿using FluentValidation;
+using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.ModelTest;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Gnios.CashBack.Api.GenericControllers
 {
-    public class CrudController<T> : BaseControllerBase where T : Entidade
+    [Route("api/[controller]")]
+    [GenericControllerNameAttribute]
+    public abstract class CrudController<T> : BaseControllerBase where T : Entity<Guid>
     {
         public CrudController(IHttpContextAccessor contexto) : base(contexto)
         {
@@ -21,11 +25,11 @@ namespace Gnios.CashBack.Api.GenericControllers
             return null;
         }
 
-        [HttpGet("{id}")]
-        public virtual T Get(long id)
-        {
-            return null;
-        }
+        //[HttpGet("{id}")]
+        //public virtual T Get(long id)
+        //{
+        //    return null;
+        //}
 
         [HttpPut("{id}")]
         public virtual T Put([FromQuery]int id, [FromBody]T recurso)

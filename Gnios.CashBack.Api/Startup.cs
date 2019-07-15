@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.ModelTest;
+using Gnios.CashBack.Api.Persistence.Repositorys;
 using Gnios.CashBack.Api.Spotify;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Gnios.CashBack.Api
 {
@@ -36,21 +38,22 @@ namespace Gnios.CashBack.Api
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ValidateModelAttribute));
-                options.Conventions.Add(new GenericControllerRouteConvention());
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddFluentValidation()
             .AddFeatureController();
 
             services.AddMemoryCache();
+
             services.AddSingleton<MemoryCacheService, MemoryCacheService>();
             services.AddSingleton<ClientRest, ClientRest>();
-            
+            services.AddScoped<IAlbumsRepository, AlbumsRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddSwaggerDocCashbackAPI();
         }
 
-     
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -83,7 +86,7 @@ namespace Gnios.CashBack.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("./swagger/v1/swagger.json", "Cashback V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cashback V1");
                 c.RoutePrefix = string.Empty;
             });
 

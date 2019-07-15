@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,12 +13,15 @@ namespace Gnios.CashBack.Api.GenericControllers
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var currentAssembly = typeof(GenericTypeControllerFeatureProvider).Assembly;
-            var candidates = currentAssembly.GetExportedTypes().Where(x => x.GetCustomAttributes<FeatureAttribute>().Any());
-
-            foreach (var candidate in candidates)
+            foreach (var entityType in IncludedEntities.Types)
             {
-                feature.Controllers.Add(typeof(CrudController<>).MakeGenericType(candidate).GetTypeInfo());
+                var typeName = entityType.Name + "Controller";
+
+                if (!feature.Controllers.Any(t => t.Name == typeName))
+                {
+                    var controllerType = typeof(CrudController<>).MakeGenericType(entityType.AsType()).GetTypeInfo();
+                    feature.Controllers.Add(controllerType);
+                }
             }
         }
     }

@@ -55,11 +55,12 @@ namespace Gnios.CashBack.Api.Spotify
             return JsonConvert.DeserializeObject<SpotifyToken>(response.Content);
         }
 
-        public IList<Album> GetAlbums()
+        public IList<SpotifyAlbum> GetAlbums()
         {
-            var genres = this.GetGenres()?.Genres;
-            var albums = new List<Album>();
-
+            var teste = this.GetGenres()?.Genres;
+            var genres = new List<string> { "pop", "mpb", "classical", "rock" };// this.GetGenres()?.Genres;
+            var albums = new List<SpotifyAlbum>();
+            
             foreach (var genre in genres)
             {
                 var request = new RestRequest("recommendations", Method.GET);
@@ -86,23 +87,5 @@ namespace Gnios.CashBack.Api.Spotify
 
             return JsonConvert.DeserializeObject<GetGenresOutput>(response.Content);
         }
-    }
-
-    public static class KeysCache
-    {
-        public static string TokenSpotify = "tokenSpotify";
-
-        public static string Albums = "albumsSpotify";
-    }
-
-    public class GetGenresOutput
-    {
-        [JsonProperty("genres")]
-        public List<string> Genres { get; set; }
-    }
-
-    public class SpotifyAlbums
-    {
-        public List<Album> Albums { get; set; }
     }
 }
