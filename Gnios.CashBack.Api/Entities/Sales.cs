@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.Entities
 {
-    [Feature("api/sales")]
+    [Feature]
     [Serializable]
     public class Sales : Entity
     {
-        public IList<IProduct> Products { get; set; }
+        public IList<Album> Products { get; set; }
         public DateTime SaleDate { get; set; }
     }
 }

@@ -9,32 +9,10 @@ namespace Gnios.CashBack.Api.GenericControllers
     {
         public List<string> id_like { get; set; }
         public string _take { get; set; }
-        public string _order { get; set; }
         public string _sort { get; set; }
         public string _skip { get; set; }
         public string _page { get; set; }
-    }
+        public IList<string> _filter { get; set; }
 
- 
-public static class PredicateBuilder
-    {
-        public static Expression<Func<T, bool>> True<T>() { return f => true; }
-        public static Expression<Func<T, bool>> False<T>() { return f => false; }
-
-        public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> expr1,
-                                                            Expression<Func<T, bool>> expr2)
-        {
-            var invokedExpr = Expression.Invoke(expr2, expr1.Parameters.Cast<Expression>());
-            return Expression.Lambda<Func<T, bool>>
-                  (Expression.OrElse(expr1.Body, invokedExpr), expr1.Parameters);
-        }
-
-        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1,
-                                                             Expression<Func<T, bool>> expr2)
-        {
-            var invokedExpr = Expression.Invoke(expr2, expr1.Parameters.Cast<Expression>());
-            return Expression.Lambda<Func<T, bool>>
-                  (Expression.AndAlso(expr1.Body, invokedExpr), expr1.Parameters);
-        }
     }
 }

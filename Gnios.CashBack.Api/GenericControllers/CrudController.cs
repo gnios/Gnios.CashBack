@@ -25,9 +25,8 @@ namespace Gnios.CashBack.Api.GenericControllers
         public virtual IEnumerable<T> Get([FromQuery] OptionsFilter options = null)
         {
             var queryParams = HttpContext.Request.Query;
-            var query = FilterByQueryParams<T>(queryParams);
-            var lista = Repository.GetAll(query,options);
-            return lista;
+            var lista = Repository.GetAll(options);
+            return lista.ToList();
         }
 
         [HttpGet("{id}")]
@@ -36,8 +35,8 @@ namespace Gnios.CashBack.Api.GenericControllers
             return Repository.Get(id);
         }
 
-        [HttpPut("{id}")]
-        public virtual T Put([FromQuery]int id, [FromBody]T recurso)
+        [HttpPut]
+        public virtual T Put([FromBody]T recurso)
         {
             return Repository.Update(recurso);
         }
@@ -48,7 +47,6 @@ namespace Gnios.CashBack.Api.GenericControllers
             return Repository.Add(recurso); ;
         }
 
-        [Route("{id:int}")]
         [HttpDelete]
         public virtual OkResult Delete([FromQuery]int id)
         {

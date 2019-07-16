@@ -64,7 +64,7 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
 
         public virtual TEntity Get(int id) => Collection.FindById(new BsonValue(id));
 
-        public virtual IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null, OptionsFilter options = null)
+        public virtual IEnumerable<TEntity> GetAll(OptionsFilter options = null)
         {
             if (options == null)
             {
@@ -72,16 +72,12 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             }
 
             LiteQueryable<TEntity> queryDB = DbContext.Repository.Query<TEntity>();
-            if (predicate != null)
+            if (options._filter != null)
             {
-                queryDB = queryDB.Where(predicate);
-            }
-
-            if (options.id_like != null)
-            {
-                foreach (var item in options.id_like)
+                var listPredicate = Filter.ByQueryParams<TEntity>(options);
+                foreach (var predicate in listPredicate)
                 {
-                    queryDB = queryDB.Where(x => options.id_like.Contains(x.Id.ToString()));
+                    queryDB = queryDB.Where(predicate);
                 }
             }
 
@@ -98,14 +94,14 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             if (options._page != null)
             {
                 var take = string.IsNullOrEmpty(options._take) ? 10 : int.Parse(options._take);
-                var page = (int.Parse(options._page) -1) * take;
+                var page = (int.Parse(options._page) - 1) * take;
 
                 queryDB = queryDB.Skip(page).Limit(take);
             }
 
             if (options._sort != null)
             {
-                return queryDB.ToList().AsQueryable().ApplySort(options._sort);
+                return Filter.Sort(options, queryDB.ToList());
             }
 
             return queryDB.ToEnumerable();

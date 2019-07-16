@@ -23,7 +23,7 @@ namespace Gnios.CashBack.Api.Persistence
 
         TEntity Get(int id);
 
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> query = null, OptionsFilter options = null);
+        IEnumerable<TEntity> GetAll(OptionsFilter options = null);
 
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> query);
     }

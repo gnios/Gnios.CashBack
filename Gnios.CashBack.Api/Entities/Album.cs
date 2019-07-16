@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.Entities
 {
-    [Feature("api/Album")]
+    [Feature]
     [Serializable]
     public class Album : Entity, IProduct
     {
