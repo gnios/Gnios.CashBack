@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.ModelTest;
+using Gnios.CashBack.Api.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +12,13 @@ namespace Gnios.CashBack.Api.GenericControllers
 {
     [Route("api/[controller]")]
     [GenericControllerNameAttribute]
-    public abstract class CrudController<T> : BaseControllerBase where T : Entity<Guid>
+    public class CrudController<T> : BaseControllerBase where T : IEntity
     {
-        public CrudController(IHttpContextAccessor contexto) : base(contexto)
+        public IRepository<T> Repository { get; }
+
+        public CrudController(IHttpContextAccessor contexto, IRepository<T> repository) : base(contexto)
         {
+            Repository = repository;
         }
 
         [HttpGet]
@@ -22,32 +26,32 @@ namespace Gnios.CashBack.Api.GenericControllers
         {
             var request = Request;
 
-            return null;
+            return Repository.GetAll();
         }
 
-        //[HttpGet("{id}")]
-        //public virtual T Get(long id)
-        //{
-        //    return null;
-        //}
+        [HttpGet("{id}")]
+        public virtual T Get(int id)
+        {
+            return Repository.Get(id);
+        }
 
         [HttpPut("{id}")]
         public virtual T Put([FromQuery]int id, [FromBody]T recurso)
         {
-            return recurso;
+            return Repository.Update(recurso);
         }
 
         [HttpPost]
         public virtual T Post([FromBody]T recurso)
         {
-            throw new System.Exception("teste");
-            return recurso;
+            return Repository.Add(recurso); ;
         }
 
         [Route("{id:int}")]
         [HttpDelete]
         public virtual OkResult Delete([FromQuery]int id)
         {
+            Repository.Remove(id);
             return Ok();
         }
 

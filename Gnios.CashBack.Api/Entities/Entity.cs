@@ -10,9 +10,9 @@ using System.Text;
 namespace Gnios.CashBack.Api.Entities
 {
     [Serializable]
-    public abstract class Entity<TIdentifier> : IEntity<TIdentifier> where TIdentifier : struct
+    public abstract class Entity : IEntity
     {
-        public virtual TIdentifier Id { get; set; }
+        public virtual int Id { get; set; }
 
         public string VersionObject
             => ComputeHash(ObjectToByteArray(this));

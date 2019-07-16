@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Gnios.CashBack.Api.Entities
 {
     [Feature("api/Album")]
-    public class Album : Entity<Guid>, IProduct
+    public class Album : Entity, IProduct
     {
         public string Name { get; set; }
 

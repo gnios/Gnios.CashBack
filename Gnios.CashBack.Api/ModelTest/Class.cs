@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.ModelTest
 {
-    public class Person : Entity<Guid>
+    public class Person : Entity
     {
         public string Name { get; set; }
         public string Email { get; set; }

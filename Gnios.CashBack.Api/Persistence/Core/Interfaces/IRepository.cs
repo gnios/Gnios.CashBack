@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Gnios.CashBack.Api.Persistence
 {
-    public interface IRepository<TEntity, TIdentifier>
-    where TEntity : IEntity<TIdentifier>
-    where TIdentifier : struct
+    public interface IRepository<TEntity>
+    where TEntity : IEntity
     {
-        bool Exists(TIdentifier id);
+        bool Exists(int id);
 
         TEntity Add(TEntity entity);
 
@@ -16,14 +16,14 @@ namespace Gnios.CashBack.Api.Persistence
 
         void Remove(TEntity entity);
 
-        void Remove(TIdentifier id);
+        void Remove(int id);
 
-        TEntity Get(TIdentifier id);
+        TEntity Get(int id);
 
-        IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll();
 
         long Count();
 
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> query);
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> query);
     }
 }

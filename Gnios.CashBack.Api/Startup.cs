@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.ModelTest;
-using Gnios.CashBack.Api.Persistence.Repositorys;
+using Gnios.CashBack.Api.Persistence;
+using Gnios.CashBack.Api.Persistence.Repository.LiteDB;
 using Gnios.CashBack.Api.Spotify;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -47,8 +48,10 @@ namespace Gnios.CashBack.Api
 
             services.AddSingleton<MemoryCacheService, MemoryCacheService>();
             services.AddSingleton<ClientRest, ClientRest>();
-            services.AddScoped<IAlbumsRepository, AlbumsRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ILiteDBContext, Context>();
+            
+            services.AddScoped(typeof(IRepository<>), typeof(LiteDBRepository<>));
 
             services.AddSwaggerDocCashbackAPI();
         }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using LiteDB;
 
 namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
 {
     [Serializable]
-    public abstract class LiteDBRepository<TEntity, TIdentifier> : IRepository<TEntity, TIdentifier>
-        where TEntity : IEntity<TIdentifier>,
-        new() where TIdentifier : struct
+    public class LiteDBRepository<TEntity> : IRepository<TEntity>
+        where TEntity : IEntity
     {
         private ILiteDBContext DbContext { get; set; }
         private LiteCollection<TEntity> _collection;
@@ -28,12 +28,12 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
 
         private string keyName = "_id";
 
-        protected LiteDBRepository(ILiteDBContext liteDBContext)
+        public LiteDBRepository(ILiteDBContext liteDBContext)
         {
             this.DbContext = liteDBContext;
         }
 
-        public virtual bool Exists(TIdentifier id)
+        public virtual bool Exists(int id)
         {
             return Collection.Exists(Query.EQ(keyName, new BsonValue(id)));
         }
@@ -50,13 +50,13 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
 
         public virtual long Count() => Collection.Count();
 
-        public virtual TEntity Get(TIdentifier id) => Collection.FindById(new BsonValue(id));
+        public virtual TEntity Get(int id) => Collection.FindById(new BsonValue(id));
 
-        public virtual IEnumerable<TEntity> GetAll() => Collection.FindAll();
+        public virtual IQueryable<TEntity> GetAll() => Collection.FindAll().AsQueryable();
 
         public virtual void Remove(TEntity entity) => Remove(entity.Id);
 
-        public virtual void Remove(TIdentifier id) => Collection.Delete(new BsonValue(id));
+        public virtual void Remove(int id) => Collection.Delete(new BsonValue(id));
 
         public virtual TEntity Update(TEntity entity)
         {
@@ -64,6 +64,6 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             return entity;
         }
 
-        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> query) => Collection.Find(query);
+        public virtual IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> query) => Collection.Find(query).AsQueryable();
     }
 }
