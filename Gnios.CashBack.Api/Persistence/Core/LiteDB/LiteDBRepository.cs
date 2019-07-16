@@ -72,6 +72,15 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             }
 
             LiteQueryable<TEntity> queryDB = DbContext.Repository.Query<TEntity>();
+
+            if (options.id_like != null)
+            {
+                foreach (var item in options.id_like)
+                {
+                    queryDB = queryDB.Where(x => options.id_like.Contains(x.Id.ToString()));
+                }
+            }
+
             if (options._filter != null)
             {
                 var listPredicate = Filter.ByQueryParams<TEntity>(options);
