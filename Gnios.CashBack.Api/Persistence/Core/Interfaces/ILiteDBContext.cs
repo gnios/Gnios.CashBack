@@ -7,6 +7,6 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
     /// </summary>
     public interface ILiteDBContext
     {
-        LiteDatabase Database { get; set; }
+        LiteRepository Repository { get; set; }
     }
 }

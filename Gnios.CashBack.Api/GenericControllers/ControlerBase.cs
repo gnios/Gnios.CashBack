@@ -3,7 +3,10 @@ using Gnios.CashBack.Api.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Gnios.CashBack.Api.GenericControllers
 {
@@ -11,7 +14,7 @@ namespace Gnios.CashBack.Api.GenericControllers
     public abstract class BaseControllerBase : Controller
     {
         protected IHttpContextAccessor contexto;
-        
+
         public BaseControllerBase(IHttpContextAccessor contexto)
         {
             this.contexto = contexto;
@@ -22,55 +25,34 @@ namespace Gnios.CashBack.Api.GenericControllers
             Response.Headers.Add("X-Total-Count", count.ToString());
         }
 
-        protected IQueryable<T> Filter<T>(IQueryable<T> response) where T : IEntity
+        public Expression<Func<T, bool>> FilterByQueryParams<T>(IQueryCollection queryParams) where T : IEntity
         {
-            var request = Request;
-            var querystrings = request.Query.ToDictionary(q => q.Key, q => q.Value);
+            Expression<Func<T, bool>> predicate = null;
+            var classType = typeof(T);
+            var propList = classType.GetProperties();
 
-            foreach (var query in querystrings)
+            var props = new Dictionary<string, PropertyInfo>(propList.Select(x => new KeyValuePair<string, PropertyInfo>(Char.ToLowerInvariant(x.Name[0]) + x.Name.Substring(1), x)));
+
+            foreach (var param in queryParams)
             {
-                if (query.Key.Contains("id_like"))
+                if (props.ContainsKey(param.Key))
                 {
-                    if (query.Value.Any(x => x.Contains("|")))
+                    var prop = props[param.Key];
+                    if (prop.PropertyType.IsPrimitive || prop.PropertyType == typeof(string))
                     {
-                        var ids = query.Value.First().Split('|').Select(x => int.Parse(x)).ToArray();
-                        response = response.Where(x => ids.Contains(x.Id));
+                        if (param.Value.Count == 1)
+                        {
+                            predicate = (x => prop.GetValue(x, null).ToString() == param.Value.First());
+                        }
+                        else
+                        {
+                            predicate = x => param.Value.Contains(prop.GetValue(x, null).ToString());
+                        }
                     }
-                    else
-                    {
-                        var queryValue = query.Value[0];
-                        response = response.Where(x => x.Id == int.Parse(queryValue));
-                    }
-                }
-                response = response.OrderBy(x => x.Id);
-
-                if (query.Key.Contains("_limit"))
-                {
-                    response = response.Take(int.Parse(query.Value));
-                }
-
-                if (query.Key.Contains("_order"))
-                {
-                }
-
-                if (query.Key.Contains("_sort"))
-                {
-                }
-
-                if (query.Key.Contains("_start"))
-                {
-                    response = response.Skip(int.Parse(query.Value));
-                }
-
-                if (query.Key.Contains("_end"))
-                {
-                    response = response.Take(int.Parse(query.Value));
                 }
             }
 
-
-            // Return the response
-            return response;
+            return predicate;
         }
     }
 }

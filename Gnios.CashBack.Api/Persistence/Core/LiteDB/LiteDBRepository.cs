@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Gnios.CashBack.Api.GenericControllers;
 using LiteDB;
 
 namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
@@ -20,7 +21,7 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
                 if (_collection == null)
                 {
                     var collectionName = typeof(TEntity).Name;
-                    _collection = DbContext.Database.GetCollection<TEntity>(collectionName);
+                    _collection = DbContext.Repository.Database.GetCollection<TEntity>(collectionName);
                 }
                 return _collection;
             }
@@ -46,13 +47,10 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
 
         public virtual Int64 Add(IEnumerable<TEntity> entities) => Collection.Insert(entities);
 
-        public virtual Int64 AddBulk(IEnumerable<TEntity> entity, int chunkSize = 32768) => Collection.Insert(entity);
+        public virtual Int64 AddBulk(IEnumerable<TEntity> entity) => Collection.Insert(entity);
 
         public virtual long Count() => Collection.Count();
 
-        public virtual TEntity Get(int id) => Collection.FindById(new BsonValue(id));
-
-        public virtual IQueryable<TEntity> GetAll() => Collection.FindAll().AsQueryable();
 
         public virtual void Remove(TEntity entity) => Remove(entity.Id);
 
@@ -64,6 +62,58 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             return entity;
         }
 
-        public virtual IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> query) => Collection.Find(query).AsQueryable();
+        public virtual TEntity Get(int id) => Collection.FindById(new BsonValue(id));
+
+        public virtual IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null, OptionsFilter options = null)
+        {
+            if (options == null)
+            {
+                return Collection.FindAll();
+            }
+
+            LiteQueryable<TEntity> queryDB = DbContext.Repository.Query<TEntity>();
+            if (predicate != null)
+            {
+                queryDB = queryDB.Where(predicate);
+            }
+
+            if (options.id_like != null)
+            {
+                foreach (var item in options.id_like)
+                {
+                    queryDB = queryDB.Where(x => options.id_like.Contains(x.Id.ToString()));
+                }
+            }
+
+            if (options._take != null)
+            {
+                queryDB = queryDB.Limit(int.Parse(options._take));
+            }
+
+            if (options._skip != null)
+            {
+                queryDB = queryDB.Skip(int.Parse(options._skip));
+            }
+
+            if (options._page != null)
+            {
+                var take = string.IsNullOrEmpty(options._take) ? 10 : int.Parse(options._take);
+                var page = (int.Parse(options._page) -1) * take;
+
+                queryDB = queryDB.Skip(page).Limit(take);
+            }
+
+            if (options._sort != null)
+            {
+                return queryDB.ToList().AsQueryable().ApplySort(options._sort);
+            }
+
+            return queryDB.ToEnumerable();
+        }
+
+        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> query)
+        {
+            return DbContext.Repository.Query<TEntity>().Where(query).ToList();
+        }
     }
 }

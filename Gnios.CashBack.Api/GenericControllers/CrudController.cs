@@ -11,7 +11,7 @@ using System.Linq;
 namespace Gnios.CashBack.Api.GenericControllers
 {
     [Route("api/[controller]")]
-    [GenericControllerNameAttribute]
+    [GenericControllerName]
     public class CrudController<T> : BaseControllerBase where T : IEntity
     {
         public IRepository<T> Repository { get; }
@@ -22,11 +22,12 @@ namespace Gnios.CashBack.Api.GenericControllers
         }
 
         [HttpGet]
-        public virtual IQueryable<T> Get()
+        public virtual IEnumerable<T> Get([FromQuery] OptionsFilter options = null)
         {
-            var request = Request;
-
-            return Repository.GetAll();
+            var queryParams = HttpContext.Request.Query;
+            var query = FilterByQueryParams<T>(queryParams);
+            var lista = Repository.GetAll(query,options);
+            return lista;
         }
 
         [HttpGet("{id}")]

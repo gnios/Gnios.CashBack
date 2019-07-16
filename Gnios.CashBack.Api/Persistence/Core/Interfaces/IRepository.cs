@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gnios.CashBack.Api.GenericControllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,12 +19,12 @@ namespace Gnios.CashBack.Api.Persistence
 
         void Remove(int id);
 
-        TEntity Get(int id);
-
-        IQueryable<TEntity> GetAll();
-
         long Count();
 
-        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> query);
+        TEntity Get(int id);
+
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> query = null, OptionsFilter options = null);
+
+        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> query);
     }
 }

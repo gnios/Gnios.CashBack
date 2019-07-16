@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using Gnios.CashBack.Api.GenericControllers;
 using LiteDB;
 
 namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
@@ -19,7 +20,7 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             {
                 if (_fileStorage == null)
                 {
-                    _fileStorage = DbContext.Database.FileStorage;
+                    _fileStorage = DbContext.Repository.Database.FileStorage;
                 }
                 return _fileStorage;
             }
@@ -48,7 +49,7 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             return fileInfo.ToStorageFile<TFile>();
         }
 
-        public IEnumerable<TFile> GetAll()
+        public IEnumerable<TFile> GetAll(OptionsFilter options = null)
         {
             foreach (LiteFileInfo fileInfo in _fileStorage.FindAll())
             {

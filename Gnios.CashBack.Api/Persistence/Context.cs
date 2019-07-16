@@ -10,9 +10,9 @@ namespace Gnios.CashBack.Api.Persistence
     [Serializable]
     public class Context : ILiteDBContext
     {
-        private LiteDatabase db;
+        private LiteRepository db;
 
-        public LiteDatabase Database
+        public LiteRepository Repository
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Gnios.CashBack.Api.Persistence
                 connectionstring.Filename = path;
                 connectionstring.Mode = LiteDB.FileMode.Exclusive;
 
-                return db ?? (db = new LiteDatabase(connectionstring));
+                return db ?? (db = new LiteRepository(connectionstring));
             }
 
             set { db = value; }
