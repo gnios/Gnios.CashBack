@@ -60,7 +60,7 @@ namespace Gnios.CashBack.Api.Spotify
             var teste = this.GetGenres()?.Genres;
             var genres = new List<string> { "pop", "mpb", "classical", "rock" };// this.GetGenres()?.Genres;
             var albums = new List<SpotifyAlbum>();
-            
+
             foreach (var genre in genres)
             {
                 var request = new RestRequest("recommendations", Method.GET);
@@ -71,6 +71,7 @@ namespace Gnios.CashBack.Api.Spotify
                 request.AddQueryParameter("market", "US");
                 IRestResponse response = Client.Execute(request);
                 var output = JsonConvert.DeserializeObject<RecomendationsOutPut>(response.Content);
+                output?.tracks?.ForEach(x => x.album.genre = genre);
                 albums.AddRange(output?.tracks?.Select(x => x.album).ToList());
             }
 

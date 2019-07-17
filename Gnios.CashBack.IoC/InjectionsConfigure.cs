@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper;
 using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Persistence.Repository.LiteDB;
@@ -40,11 +41,19 @@ namespace Gnios.CashBack.IoC
                    .As<IBusiness<AlbumEntity, AlbumDto>>()
                    .InstancePerLifetimeScope();
 
-
             builder
                 .RegisterGeneric(typeof(LiteDBRepository<>))
                 .As(typeof(IRepository<>))
                 .InstancePerDependency();
+
+            //builder.Register(
+            //      ctx =>
+            //      {
+            //          var scope = ctx.Resolve<ILifetimeScope>();
+            //          return new Mapper(ctx.Resolve<IConfigurationProvider>(),scope.Resolve);
+            //      })
+            //      .As<IMapper>()
+            //      .InstancePerLifetimeScope();
 
             //Type baseEntityType = typeof(IEntity);
             //Assembly assembly = baseEntityType.Assembly;

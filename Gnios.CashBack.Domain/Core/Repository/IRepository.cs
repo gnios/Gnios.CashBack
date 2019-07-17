@@ -13,6 +13,10 @@ namespace Gnios.CashBack.Api.Persistence
 
         TEntity Add(TEntity entity);
 
+        Int64 Add(IEnumerable<TEntity> entities);
+
+        Int64 AddBulk(IEnumerable<TEntity> entity);
+    
         TEntity Update(TEntity entity);
 
         void Remove(TEntity entity);

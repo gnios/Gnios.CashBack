@@ -16,5 +16,6 @@ namespace Gnios.CashBack.Api.Spotify
         public int total_tracks { get; set; }
         public string type { get; set; }
         public string uri { get; set; }
+        public string genre { get; set; }
     }
 }

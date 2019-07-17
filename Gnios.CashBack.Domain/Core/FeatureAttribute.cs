@@ -16,6 +16,7 @@ namespace Gnios.CashBack.Api.GenericControllers
         }
 
         public string Name { get; }
+
         public Type EntityType { get; }
     }
 }

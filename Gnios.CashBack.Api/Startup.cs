@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using FluentValidation;
-using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.ModelTest;
 using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Persistence.Repository.LiteDB;
 using Gnios.CashBack.Api.Spotify;
-using Gnios.CashBack.Domain.Album.Dto;
 using Gnios.CashBack.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -40,7 +38,6 @@ namespace Gnios.CashBack.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ValidateModelAttribute));
@@ -53,6 +50,7 @@ namespace Gnios.CashBack.Api
 
             services.AddSingleton<MemoryCacheService, MemoryCacheService>();
             services.AddSingleton<ClientRest, ClientRest>();
+            services.AddSingleton<DbInitializer, DbInitializer>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper();
@@ -100,14 +98,7 @@ namespace Gnios.CashBack.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
-        }
-    }
-
-    public class UserProfile : Profile
-    {
-        public UserProfile()
-        {
-            CreateMap<AlbumEntity, AlbumDto>().ReverseMap();
+            
         }
     }
 }
