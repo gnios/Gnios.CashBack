@@ -14,7 +14,7 @@ namespace Gnios.CashBack.Api.Persistence
 
         TDto Add(TDto entity);
 
-        TDto Update(TDto entity);
+        TDto Update(int id, TDto recurso);
 
         void Remove(TDto entity);
 

@@ -1,9 +1,14 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluentValidation;
 using Gnios.CashBack.Api.Entities;
+using Gnios.CashBack.Api.Persistence;
+using Gnios.CashBack.Domain.Album.Dto;
 
 namespace Gnios.CashBack.Api.ModelTest
 {
-    public class AlbumValidator : AbstractValidator<AlbumEntity>
+    public class AlbumValidator : AbstractValidator<AlbumDto>
     {
         public AlbumValidator()
         {

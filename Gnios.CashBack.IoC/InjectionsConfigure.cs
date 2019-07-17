@@ -37,8 +37,8 @@ namespace Gnios.CashBack.IoC
                 .As(typeof(IBusiness<,>))
                 .InstancePerDependency();
 
-            builder.RegisterType<AlbumBusiness>()
-                   .As<IBusiness<AlbumEntity, AlbumDto>>()
+            builder.RegisterType<SalesBusiness>()
+                   .As<IBusiness<SalesEntity, SalesDto>>()
                    .InstancePerLifetimeScope();
 
             builder

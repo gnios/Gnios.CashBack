@@ -12,7 +12,23 @@ namespace Gnios.CashBack.Api.Entities
     [Feature("Sales", typeof(SalesEntity))]
     public class SalesDto : BaseDto
     {
-        public IList<AlbumDto> Products { get; set; }
+        public IList<ProductDto> Products { get; set; }
         public DateTime SaleDate { get; set; }
+
+        public decimal TotalCashback
+        {
+            get
+            {
+                return Products.Sum(x => x.Cashback);
+            }
+        }
+
+        public decimal Total
+        {
+            get
+            {
+                return Products.Sum(x => x.Price);
+            }
+        }
     }
 }

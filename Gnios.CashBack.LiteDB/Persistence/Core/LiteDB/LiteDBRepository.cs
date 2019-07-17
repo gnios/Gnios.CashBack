@@ -50,13 +50,14 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
         public virtual Int64 AddBulk(IEnumerable<TEntity> entity) => Collection.Insert(entity);
 
         public virtual long Count() => Collection.Count();
-    
+
         public virtual void Remove(TEntity entity) => Remove(entity.Id);
 
         public virtual void Remove(int id) => Collection.Delete(new BsonValue(id));
 
-        public virtual TEntity Update(TEntity entity)
+        public virtual TEntity Update(int id, TEntity entity)
         {
+            entity.Id = id;
             Collection.Update(entity);
             return entity;
         }

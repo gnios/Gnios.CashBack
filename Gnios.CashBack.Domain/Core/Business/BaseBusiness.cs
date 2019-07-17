@@ -68,10 +68,10 @@ namespace Gnios.CashBack.Domain.Album
             Repository.Remove(id);
         }
 
-        public virtual TDto Update(TDto entity)
+        public virtual TDto Update(int id, TDto entity)
         {
             var entityMigration = Mapper.Map<TEntity>(entity);
-            var entityUpdated = Repository.Update(entityMigration);
+            var entityUpdated = Repository.Update(id,entityMigration);
             return Mapper.Map<TDto>(entityUpdated);
         }
     }

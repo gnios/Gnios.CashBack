@@ -2,7 +2,9 @@
 using System.IO;
 using System.Reflection;
 using FluentValidation.AspNetCore;
+using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.GenericControllers;
+using Gnios.CashBack.Domain.Album;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -12,7 +14,7 @@ namespace Gnios.CashBack.Api
     {
         public static IMvcBuilder AddFluentValidation(this IMvcBuilder mvcBuilder)
         {
-            return mvcBuilder.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            return mvcBuilder.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<FeatureAttribute>());
         }
 
         public static IMvcBuilder AddFeatureController(this IMvcBuilder mvcBuilder)

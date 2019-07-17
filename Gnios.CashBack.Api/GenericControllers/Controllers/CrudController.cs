@@ -18,7 +18,7 @@ namespace Gnios.CashBack.Api.GenericControllers
     {
         public IBusiness<TEntity, TDto> Business { get; }
 
-        public CrudController(IHttpContextAccessor contexto, IBusiness<TEntity,TDto> business) : base(contexto)
+        public CrudController(IHttpContextAccessor contexto, IBusiness<TEntity, TDto> business) : base(contexto)
         {
             Business = business;
         }
@@ -35,7 +35,7 @@ namespace Gnios.CashBack.Api.GenericControllers
         public virtual TDto Get(int id) => Business.Get(id);
 
         [HttpPut]
-        public virtual TDto Put([FromBody]TDto recurso) => Business.Update(recurso);
+        public virtual TDto Put([FromQuery] int id, [FromBody]TDto recurso) => Business.Update(id,recurso);
 
         [HttpPost]
         public virtual TDto Post([FromBody]TDto recurso) => Business.Add(recurso);
