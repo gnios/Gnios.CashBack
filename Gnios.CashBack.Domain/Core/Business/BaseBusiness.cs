@@ -3,6 +3,7 @@ using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.Persistence;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -53,7 +54,7 @@ namespace Gnios.CashBack.Domain.Album
 
         public virtual IEnumerable<TDto> GetAll(OptionsFilter options = null)
         {
-            var response = Repository.GetAll(options);
+            var response = Repository.GetAll(options).ToList();
             return Mapper.Map<IEnumerable<TDto>>(response);
         }
 

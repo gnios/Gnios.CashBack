@@ -1,5 +1,6 @@
 ﻿using Gnios.CashBack.Api.GenericControllers.Filters;
 using Gnios.CashBack.Api.Persistence;
+using Gnios.CashBack.ApplicationCore.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,17 @@ namespace Gnios.CashBack.Api.GenericControllers
             var classType = typeof(T);
             var propList = classType.GetProperties();
 
-            var props = new Dictionary<string, PropertyInfo>(propList.Select(x => new KeyValuePair<string, PropertyInfo>(Char.ToLowerInvariant(x.Name[0]) + x.Name.Substring(1), x)));
+            var props = new Dictionary<string, PropertyInfo>(propList.Select(x => new KeyValuePair<string, PropertyInfo>(x.Name, x)), StringComparer.OrdinalIgnoreCase);
 
             var filters = new List<QueryFilter>();
 
             foreach (var param in queryParams._filter)
             {
+                if (string.IsNullOrEmpty(param))
+                {
+                    return predicate;
+                }
+
                 if (param.Contains("=="))
                 {
                     filters.Add(PrepareFilter(param, "=="));
@@ -38,17 +44,26 @@ namespace Gnios.CashBack.Api.GenericControllers
                 }
             }
 
+            if (queryParams._filter.Count > 0 && filters.Count == 0)
+            {
+                throw new BadRequestException($"Todos os filtros devem conter um dos operadores ('>=','<=','==')");
+            }
+
             foreach (var param in filters)
             {
                 if (props.ContainsKey(param.PropertyName))
                 {
-                    var prop = props[param.PropertyName];
+                    var prop = props[param.PropertyName.ToLower()];
                     if (prop.PropertyType == typeof(int)
                         || prop.PropertyType == typeof(DateTime)
                         || prop.PropertyType == typeof(string))
                     {
-                        predicate.Add(x => GenericComparer.GenericComparison(prop.GetValue(x, null).ToString(), param.Value, param.Operator, prop.PropertyType));
+                        predicate.Add(x => GenericComparer.GenericComparison(prop.GetValue(x, null), param.Value, param.Operator, prop.PropertyType));
                     }
+                }
+                else
+                {
+                    throw new BadRequestException($"A propriedade {param.PropertyName} não exite neste objeto.");
                 }
             }
 
@@ -65,8 +80,8 @@ namespace Gnios.CashBack.Api.GenericControllers
             var classType = typeof(T);
             var propList = classType.GetProperties();
 
-            var props = new Dictionary<string, PropertyInfo>(propList.Select(x => new KeyValuePair<string, PropertyInfo>(Char.ToLowerInvariant(x.Name[0]) + x.Name.Substring(1), x)));
-            IOrderedEnumerable<T> listOrdered = list.OrderBy(x => props["Id"].GetValue(x, null));
+            var props = new Dictionary<string, PropertyInfo>(propList.Select(x => new KeyValuePair<string, PropertyInfo>(x.Name, x)), StringComparer.OrdinalIgnoreCase);
+            IOrderedEnumerable<T> listOrdered = list.OrderBy(x => props["id"].GetValue(x, null));
 
             if (string.IsNullOrEmpty(options._sort))
             {
@@ -79,10 +94,14 @@ namespace Gnios.CashBack.Api.GenericControllers
             {
                 string param = sort[i];
 
-                if (param.Contains("_desc") && props.ContainsKey(param.Replace("_desc","")) )
+                if (!props.ContainsKey(param.Replace("_desc", "")))
                 {
-                    var prop = props[param.Replace("_desc", "")];
+                    throw new BadRequestException($"A propriedade {param} não exite neste objeto.");
+                }
 
+                var prop = props[param.Replace("_desc", "")];
+                if (param.Contains("_desc"))
+                {
                     if (i == 0)
                     {
                         listOrdered = list.OrderByDescending(x => prop.GetValue(x, null));
@@ -92,9 +111,8 @@ namespace Gnios.CashBack.Api.GenericControllers
                         listOrdered = listOrdered.ThenByDescending(x => prop.GetValue(x, null));
                     }
                 }
-                else if (props.ContainsKey(param))
+                else
                 {
-                    var prop = props[param];
                     if (i == 0)
                     {
                         listOrdered = list.OrderBy(x => prop.GetValue(x, null));

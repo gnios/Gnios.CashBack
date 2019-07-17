@@ -97,6 +97,7 @@ namespace Gnios.CashBack.Api
             });
 
             app.UseHttpsRedirection();
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
             
         }

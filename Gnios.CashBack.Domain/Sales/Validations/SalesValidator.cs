@@ -37,7 +37,6 @@ namespace Gnios.CashBack.Api.ModelTest
                 Business = business;
                 Mapper = mapper;
             }
-
             private bool ProductExists(ProductDto product)
             {
                 if (!Business.Exists(product.Id))

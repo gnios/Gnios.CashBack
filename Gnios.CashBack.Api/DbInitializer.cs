@@ -3,6 +3,7 @@ using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Spotify;
 using Gnios.CashBack.ApplicationCore.Sales;
+using Gnios.CashBack.Domain.Album.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Gnios.CashBack.Api
 {
     public class DbInitializer
     {
-        public DbInitializer(IRepository<AlbumEntity> repository,
+        public DbInitializer(IBusiness<AlbumEntity, AlbumDto> repository,
             IRepository<CashbackEntity> repositoryCashback,
             MemoryCacheService cache,
             ClientRest client, IMapper mapper)
@@ -23,7 +24,7 @@ namespace Gnios.CashBack.Api
             Mapper = mapper;
         }
 
-        public IRepository<AlbumEntity> Repository { get; }
+        public IBusiness<AlbumEntity, AlbumDto> Repository { get; }
         public IRepository<CashbackEntity> RepositoryCashback { get; }
         public MemoryCacheService Cache { get; }
         public ClientRest Client { get; }
@@ -31,11 +32,15 @@ namespace Gnios.CashBack.Api
 
         public void Seed()
         {
+            //ClearDataBase();
             if (!Repository.GetAll().Any())
             {
                 var spotifyAlbums = Client.GetAlbums();
-                var albums = Mapper.Map<List<AlbumEntity>>(spotifyAlbums);
-                Repository.AddBulk(albums);
+                var albums = Mapper.Map<List<AlbumDto>>(spotifyAlbums);
+                foreach (var item in albums)
+                {
+                    Repository.Add(item);
+                }
             }
 
             if (!RepositoryCashback.GetAll().Any())
@@ -79,6 +84,11 @@ namespace Gnios.CashBack.Api
             foreach (var item in Repository.GetAll())
             {
                 Repository.Remove(item);
+            }
+
+            foreach (var item in RepositoryCashback.GetAll())
+            {
+                RepositoryCashback.Remove(item);
             }
         }
     }

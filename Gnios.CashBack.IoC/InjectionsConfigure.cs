@@ -5,8 +5,6 @@ using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Persistence.Repository.LiteDB;
 using Gnios.CashBack.ApplicationCore.Album;
 using Gnios.CashBack.Domain.Album;
-using Gnios.CashBack.Domain.Album.Dto;
-using Gnios.CashBack.LiteDB.Persistence.CustomRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

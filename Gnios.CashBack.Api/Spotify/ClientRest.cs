@@ -25,19 +25,7 @@ namespace Gnios.CashBack.Api.Spotify
         {
             Client = new RestClient(apiURL);
             CacheService = cacheService;
-
-            Token = CacheCall(KeysCache.TokenSpotify, LoginSpotify);
-
-        }
-
-        private TItem CacheCall<TItem>(string keyCache, Func<TItem> factory)
-        {
-            return CacheService.GetOrCreate<TItem>(
-                   cacheGroup, keyCache, 3600,
-                   (cacheEntry) =>
-                   {
-                       return factory();
-                   });
+            Token = cacheService.Cache(cacheGroup, KeysCache.TokenSpotify, LoginSpotify);
         }
 
         private SpotifyToken LoginSpotify()

@@ -15,27 +15,26 @@ namespace Gnios.CashBack.Api.GenericControllers.Filters
                 };
 
 
-        public static bool GenericComparison(string leftData, string rightData, string @operator, Type type)
+        public static bool GenericComparison(object currentData, string rightData, string @operator, Type type)
         {
-            try
+            if (currentData == null)
             {
-
-                if (@operator == ">=")
-                {
-                    return dictComparision[type].GreaterThan(leftData, rightData);
-                }
-
-                if (@operator == "<=")
-                {
-                    return dictComparision[type].LessThan(leftData, rightData);
-                }
-
-                return dictComparision[type].Equals(leftData, rightData);
+                return false;
             }
-            catch (Exception ex)
+
+            string leftData = currentData.ToString();
+            if (@operator == ">=")
             {
-                throw ex;
+                return dictComparision[type].GreaterThan(leftData, rightData);
             }
+
+            if (@operator == "<=")
+            {
+                return dictComparision[type].LessThan(leftData, rightData);
+            }
+
+            return dictComparision[type].Equals(leftData, rightData);
+
         }
 
     }

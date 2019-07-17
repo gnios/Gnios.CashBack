@@ -9,7 +9,7 @@ namespace Gnios.CashBack.Api
     {
         public AutoMapperProfile()
         {
-            CreateMap<AlbumEntity, SpotifyAlbum>()
+            CreateMap<AlbumDto, SpotifyAlbum>()
                 .ForMember(destination => destination.name, map => map.MapFrom(source => source.Name))
                 .ForMember(destination => destination.genre, map => map.MapFrom(source => source.Genre))
                 .ReverseMap().ForAllOtherMembers(x => x.Ignore());

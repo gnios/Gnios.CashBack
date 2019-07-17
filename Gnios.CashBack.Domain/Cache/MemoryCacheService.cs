@@ -32,6 +32,17 @@ namespace Gnios.CashBack.Api.Spotify
             this.MemoryCache = memoryCache;
         }
 
+
+        public TItem Cache<TItem>(string keyCache,string cacheGroup, Func<TItem> factory)
+        {
+            return GetOrCreate(
+                   cacheGroup, keyCache, 3600,
+                   (cacheEntry) =>
+                   {
+                       return factory();
+                   });
+        }
+
         /// <summary>
         /// Remove a single item from the cache by it's cache key
         /// </summary>

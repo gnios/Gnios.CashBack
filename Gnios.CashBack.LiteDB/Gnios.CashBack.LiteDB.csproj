@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Gnios.CashBack.Domain\Gnios.CashBack.ApplicationCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\CustomRepositories\" />
+  </ItemGroup>
+
 </Project>
