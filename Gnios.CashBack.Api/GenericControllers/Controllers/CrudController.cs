@@ -12,45 +12,38 @@ namespace Gnios.CashBack.Api.GenericControllers
 {
     [Route("api/[controller]")]
     [GenericControllerName]
-    public class CrudController<T> : BaseControllerBase where T : IEntity
+    public class CrudController<TEntity, TDto> : BaseControllerBase
+        where TEntity : IEntity
+        where TDto : IDto
     {
-        public IRepository<T> Repository { get; }
+        public IBusiness<TEntity, TDto> Business { get; }
 
-        public CrudController(IHttpContextAccessor contexto, IRepository<T> repository) : base(contexto)
+        public CrudController(IHttpContextAccessor contexto, IBusiness<TEntity,TDto> business) : base(contexto)
         {
-            Repository = repository;
+            Business = business;
         }
 
         [HttpGet]
-        public virtual IEnumerable<T> Get([FromQuery] OptionsFilter options = null)
+        public virtual IEnumerable<TDto> Get([FromQuery] OptionsFilter options = null)
         {
             var queryParams = HttpContext.Request.Query;
-            var lista = Repository.GetAll(options);
+            var lista = Business.GetAll(options);
             return lista.ToList();
         }
 
         [HttpGet("{id}")]
-        public virtual T Get(int id)
-        {
-            return Repository.Get(id);
-        }
+        public virtual TDto Get(int id) => Business.Get(id);
 
         [HttpPut]
-        public virtual T Put([FromBody]T recurso)
-        {
-            return Repository.Update(recurso);
-        }
+        public virtual TDto Put([FromBody]TDto recurso) => Business.Update(recurso);
 
         [HttpPost]
-        public virtual T Post([FromBody]T recurso)
-        {
-            return Repository.Add(recurso); ;
-        }
+        public virtual TDto Post([FromBody]TDto recurso) => Business.Add(recurso);
 
         [HttpDelete]
         public virtual OkResult Delete([FromQuery]int id)
         {
-            Repository.Remove(id);
+            Business.Remove(id);
             return Ok();
         }
 

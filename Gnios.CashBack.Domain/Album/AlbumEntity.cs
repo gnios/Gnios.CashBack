@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Gnios.CashBack.Api.Entities
 {
-    [Feature]
     [Serializable]
-    public class Album : Entity, IProduct
+    public class AlbumEntity : Entity
     {
         public string Name { get; set; }
 

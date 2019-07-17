@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gnios.CashBack.Api.Entities;
+using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Spotify;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,12 @@ namespace Gnios.CashBack.Api.Controllers
     public class ValuesController : ControllerBase
     {
         public ClientRest Client { get; set; }
+        public IRepository<AlbumEntity> Repo { get; }
 
-        public ValuesController(ClientRest clientRest)
+        public ValuesController(ClientRest clientRest, IRepository<AlbumEntity> repo)
         {
             Client = clientRest;
+            Repo = repo;
         }
         /// <summary>
         /// Teste Get
@@ -25,10 +28,11 @@ namespace Gnios.CashBack.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var teste = new Album();
+            var teste = new AlbumEntity();
             teste.Name = "teste";
             teste.Price = 1.1M;
 
+            Repo.Add(teste);
             return new string[] { "value1", "value2" };
         }
 

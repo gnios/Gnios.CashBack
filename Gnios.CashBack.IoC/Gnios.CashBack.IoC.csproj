@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gnios.CashBack.Domain\Gnios.CashBack.ApplicationCore.csproj" />
+    <ProjectReference Include="..\Gnios.CashBack.LiteDB\Gnios.CashBack.LiteDB.csproj" />
+  </ItemGroup>
+
+</Project>

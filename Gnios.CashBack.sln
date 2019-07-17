@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gnios.CashBack.Api", "Gnios.CashBack.Api\Gnios.CashBack.Api.csproj", "{3D9E036C-C44E-4F08-8D3E-1BA788487285}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gnios.CashBack.ApplicationCore", "Gnios.CashBack.Domain\Gnios.CashBack.ApplicationCore.csproj", "{1BA4D778-0D77-4BB4-8B57-C606FD77CE03}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gnios.CashBack.IoC", "Gnios.CashBack.IoC\Gnios.CashBack.IoC.csproj", "{2208C1F8-2A09-48FC-B2DD-BD6C1B453CFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gnios.CashBack.LiteDB", "Gnios.CashBack.LiteDB\Gnios.CashBack.LiteDB.csproj", "{9AF143F2-544E-4CEC-B83C-FD316355E457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{3D9E036C-C44E-4F08-8D3E-1BA788487285}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D9E036C-C44E-4F08-8D3E-1BA788487285}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D9E036C-C44E-4F08-8D3E-1BA788487285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA4D778-0D77-4BB4-8B57-C606FD77CE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA4D778-0D77-4BB4-8B57-C606FD77CE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA4D778-0D77-4BB4-8B57-C606FD77CE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA4D778-0D77-4BB4-8B57-C606FD77CE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2208C1F8-2A09-48FC-B2DD-BD6C1B453CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2208C1F8-2A09-48FC-B2DD-BD6C1B453CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2208C1F8-2A09-48FC-B2DD-BD6C1B453CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2208C1F8-2A09-48FC-B2DD-BD6C1B453CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AF143F2-544E-4CEC-B83C-FD316355E457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AF143F2-544E-4CEC-B83C-FD316355E457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AF143F2-544E-4CEC-B83C-FD316355E457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AF143F2-544E-4CEC-B83C-FD316355E457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

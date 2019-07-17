@@ -3,12 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Autofac;
+using AutoMapper;
 using FluentValidation;
+using Gnios.CashBack.Api.Entities;
 using Gnios.CashBack.Api.GenericControllers;
 using Gnios.CashBack.Api.ModelTest;
 using Gnios.CashBack.Api.Persistence;
 using Gnios.CashBack.Api.Persistence.Repository.LiteDB;
 using Gnios.CashBack.Api.Spotify;
+using Gnios.CashBack.Domain.Album.Dto;
+using Gnios.CashBack.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -49,16 +54,16 @@ namespace Gnios.CashBack.Api
             services.AddSingleton<MemoryCacheService, MemoryCacheService>();
             services.AddSingleton<ClientRest, ClientRest>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ILiteDBContext, Context>();
-            
-            services.AddScoped(typeof(IRepository<>), typeof(LiteDBRepository<>));
 
+            services.AddAutoMapper();
             services.AddSwaggerDocCashbackAPI();
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new InjectionsConfigure());
+        }
 
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -95,6 +100,14 @@ namespace Gnios.CashBack.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+    }
+
+    public class UserProfile : Profile
+    {
+        public UserProfile()
+        {
+            CreateMap<AlbumEntity, AlbumDto>().ReverseMap();
         }
     }
 }

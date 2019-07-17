@@ -10,19 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
-    <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
     <PackageReference Include="RestSharp" Version="106.6.10" />
     <PackageReference Include="SpotifyApi.NetCore" Version="2.4.6-beta" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
-    <PackageReference Include="System.Linq.Dynamic" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\CustomRepositories\" />
+    <ProjectReference Include="..\Gnios.CashBack.Domain\Gnios.CashBack.ApplicationCore.csproj" />
+    <ProjectReference Include="..\Gnios.CashBack.IoC\Gnios.CashBack.IoC.csproj" />
   </ItemGroup>
 
 </Project>

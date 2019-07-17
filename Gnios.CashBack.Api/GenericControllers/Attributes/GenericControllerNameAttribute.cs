@@ -8,10 +8,13 @@ namespace Gnios.CashBack.Api.GenericControllers
     {
         public void Apply(ControllerModel controller)
         {
-            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(CrudController<>))
+            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(CrudController<,>))
             {
+
                 var entityType = controller.ControllerType.GenericTypeArguments[0];
-                controller.ControllerName = entityType.Name;
+                var dtoType = controller.ControllerType.GenericTypeArguments[1];
+                FeatureAttribute featureAttribute = (FeatureAttribute)Attribute.GetCustomAttribute(dtoType, typeof(FeatureAttribute));
+                controller.ControllerName = string.IsNullOrEmpty(featureAttribute.Name) ? dtoType.Name : featureAttribute.Name;
             }
         }
     }

@@ -2,8 +2,7 @@
 using LiteDB;
 using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using FileMode = LiteDB.FileMode;
 
 namespace Gnios.CashBack.Api.Persistence
 {
@@ -26,7 +25,7 @@ namespace Gnios.CashBack.Api.Persistence
                 var path = Path.Combine(pathDirectory, "liteDB");
                 var connectionstring = new ConnectionString();
                 connectionstring.Filename = path;
-                connectionstring.Mode = LiteDB.FileMode.Exclusive;
+                connectionstring.Mode = FileMode.Shared;
 
                 return db ?? (db = new LiteRepository(connectionstring));
             }

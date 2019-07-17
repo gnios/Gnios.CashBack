@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gnios.CashBack.Api.Entities;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -10,7 +11,7 @@ namespace Gnios.CashBack.Api.GenericControllers
 
         static IncludedEntities()
         {
-            var assembly = typeof(IncludedEntities).GetTypeInfo().Assembly;
+            var assembly = typeof(BaseDto).GetTypeInfo().Assembly;
             var typeList = new List<TypeInfo>();
 
             foreach (Type type in assembly.GetTypes())
