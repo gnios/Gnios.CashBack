@@ -8,7 +8,7 @@ namespace Gnios.CashBack.Api.GenericControllers
     [Serializable]
     public class OptionsFilter
     {
-        public List<string> id_like { get; set; }
+        public List<int> id_like { get; set; }
         public int _take { get; set; }
         public string _sort { get; set; }
         public int _skip { get; set; }

@@ -117,7 +117,7 @@ namespace Gnios.CashBack.Api.Persistence.Repository.LiteDB
             {
                 foreach (var item in options.id_like)
                 {
-                    queryDB = queryDB.Where(x => options.id_like.Contains(x.Id.ToString()));
+                    queryDB = queryDB.Where(x => options.id_like.Contains(x.Id));
                 }
             }
 
