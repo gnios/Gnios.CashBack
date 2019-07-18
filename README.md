@@ -17,7 +17,7 @@ Projeto feito para o desafio da BeBlue.
       - [Exemplo](#Exemplo)
       - [Operadores](#Operadores)
     - [Ordenação](#Ordena%C3%A7%C3%A3o)
-  - [Desafios pessoais](#Desafios-pessoais)
+  - [Extras](#Extras)
       - [Api's genéricas](#Apis-gen%C3%A9ricas)
       - [Utilização de cache](#Utiliza%C3%A7%C3%A3o-de-cache)
       - [Banco de dados LITEDB.](#Banco-de-dados-LITEDB)
@@ -45,7 +45,7 @@ DELETE /posts/1
 
 #### Modificadoers de de consulta GET
 
-Todas as consultas `GET` que retornam uma lista, tem os paremtros opcionais
+Todas as consultas `GET` que retornam uma lista, tem os parâmetros opcionais
 abaixo:
 
 | parametro | tipo  | breve Descrição | Exemplo |
@@ -61,7 +61,7 @@ abaixo:
 ### Filtros
 
 Adicione `_filter` nas chamadas `GET` para filtrar a lista.
-Vale lembrar que quando adicionado mais de um `_filter` ele a composição destes filtros
+Vale lembrar que quando adicionado mais de um `_filter` a composição destes filtros
 será feita com `&&`
 
 #### Exemplo
@@ -98,7 +98,7 @@ GET /api/Album?_sort=name_desc
 GET /api/Album?_sort=name_desc,id
 ```
 
-## Desafios pessoais
+## Extras
 
 #### Api's genéricas
 Visto que muitas vezes eu preciso criar apis para os meus projetos, resolvi utilizar este desafio
