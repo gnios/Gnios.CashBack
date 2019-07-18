@@ -115,10 +115,10 @@ O motivo para a escolha de utilizar o LiteDB foram duas, a primeira é que para 
 #### Trabalhos futuros
 Adicionar a autencicação JWT para a API.
 Modularizar a logica de criação de API's genérica para criar um pacote NUGET.
+Adicionar os testes unitários.
+Adicionar uma ferramenta de CI (Circle, Travis, ect..).
 
 
 ## License
 
 MIT
-
-[Patreon](https://www.patreon.com/typicode) - [Supporters](https://thanks.typicode.com) ✨
